@@ -14,6 +14,7 @@ public class UsersController {
 
     private final UserService userService;
 
+
     public UsersController(UserService userService) {
         this.userService = userService;
     }
@@ -28,6 +29,21 @@ public class UsersController {
         Optional<User> userOpt = userService.getUserById(id);
         return userOpt.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+
+    ////comentario incluido modificando UsersController---------Josué González
+    @GetMapping("/byusername/{username}")
+    public ResponseEntity<User> getUserByUsername(
+            @PathVariable String username) {
+
+        Optional<User> userOpt = userService.authenticate(username);
+
+        return userOpt
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
